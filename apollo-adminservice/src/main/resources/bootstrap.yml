@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    consul:
+      host: localhsot
+      port: 8500
+      discovery:
+        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+        # HTTP健康检查
+        health-check-path: /health
+        healthCheckInterval: 15s
+        # 配置是否进行health check，以及频率
+        heartbeat:
+          enabled: true
+          ttlValue: 10
+        enabled: true # 是否去发现其他服务
+        register: true #是否将自身服务注册到consul中
+        query-passing: true
+        preferIpAddress: true
+
+management:
+  health:
+    status:
+      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP 
